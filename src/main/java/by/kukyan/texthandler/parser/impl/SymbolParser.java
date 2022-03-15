@@ -1,12 +1,12 @@
 package by.kukyan.texthandler.parser.impl;
 
 import by.kukyan.texthandler.entity.Symbol;
-import by.kukyan.texthandler.entity.TextComponent;
+import by.kukyan.texthandler.entity.CustomTextComponent;
 import by.kukyan.texthandler.entity.TextComposite;
 import by.kukyan.texthandler.entity.TextElementType;
-import by.kukyan.texthandler.parser.TextParser;
+import by.kukyan.texthandler.parser.CustomTextParser;
 
-public class SymbolParser implements TextParser {
+public class SymbolParser implements CustomTextParser {
 
     private static final String SYMBOL_SEPARATOR = "";
     private static final String NUMBER_PATTERN = "\\d";
@@ -28,7 +28,7 @@ public class SymbolParser implements TextParser {
                 } else {
                     type = TextElementType.LETTER;
                 }
-                TextComponent component = new Symbol(symbol.charAt(0), type);
+                CustomTextComponent component = new Symbol(symbol.charAt(0), type);
                 symbolComposite.add(component);
             }
         }

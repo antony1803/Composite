@@ -2,6 +2,6 @@ package by.kukyan.texthandler.parser;
 
 import by.kukyan.texthandler.entity.TextComposite;
 
-public interface TextParser {
+public interface CustomTextParser {
     TextComposite parse(String text);
 }

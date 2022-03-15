@@ -1,23 +1,23 @@
 package by.kukyan.texthandler.parser.impl;
 
-import by.kukyan.texthandler.entity.TextComponent;
+import by.kukyan.texthandler.entity.CustomTextComponent;
 import by.kukyan.texthandler.entity.TextComposite;
 import by.kukyan.texthandler.entity.TextElementType;
-import by.kukyan.texthandler.parser.TextParser;
+import by.kukyan.texthandler.parser.CustomTextParser;
 
-public class ParagraphParser implements TextParser {
-    private static final String PARAGRAPH_PATTERN = "[\\n\\t]+";
-    private final SentenceParser sentenceParser = new SentenceParser();
+public class ParagraphParser implements CustomTextParser {
+    private static final String PARAGRAPH_LIMITER = "[\\n\\t]+";
+    private final CustomTextParser compositeParser = new SentenceParser();
 
     @Override
     public TextComposite parse(String text) {
-        TextComposite paragraphComposite = new TextComposite(TextElementType.PARAGRAPH);
-        String[] paragraphs = text.strip().split(PARAGRAPH_PATTERN);
+        TextComposite composite = new TextComposite(TextElementType.PARAGRAPH);
+        String[] paragraphs = text.strip().split(PARAGRAPH_LIMITER);
 
         for (String paragraph : paragraphs) {
-            TextComponent paragraphComponent = sentenceParser.parse(paragraph);
-            paragraphComposite.add(paragraphComponent);
+            CustomTextComponent paragraphComponent = compositeParser.parse(paragraph);
+            composite.add(paragraphComponent);
         }
-        return paragraphComposite;
+        return composite;
     }
 }

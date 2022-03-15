@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TextComposite implements TextComponent{
+public class TextComposite implements CustomTextComponent {
     private TextElementType elementType;
-    private List<TextComponent> components = new ArrayList<>();
+    private List<CustomTextComponent> components = new ArrayList<>();
 
     public TextComposite(TextElementType elementType) {
         this.elementType = elementType;
@@ -16,28 +16,28 @@ public class TextComposite implements TextComponent{
     @Override
     public String toString() {
         String separator = elementType.getSeparator();
-        return this.getComponents().stream()
+        return this.getInnerComponents().stream()
                 .map(textComponent -> textComponent.toString() + separator)
                 .collect(Collectors.joining());
     }
 
     @Override
-    public boolean add(TextComponent component) {
+    public boolean add(CustomTextComponent component) {
         return components.add(component);
     }
 
     @Override
-    public boolean remove(TextComponent component) {
+    public boolean remove(CustomTextComponent component) {
         return components.remove(component);
     }
 
     @Override
-    public TextElementType getElementType() {
+    public TextElementType getCompositeElementType() {
         return elementType;
     }
 
     @Override
-    public List<TextComponent> getComponents() {
+    public List<CustomTextComponent> getInnerComponents() {
         return components;
     }
 
