@@ -7,7 +7,9 @@ public interface CustomTextComponent {
 
     boolean remove(CustomTextComponent component);
 
-    TextElementType getCompositeElementType();
+    TextElementType getComponentElementType();
 
     List<CustomTextComponent> getInnerComponents();
+
+    int size();
 }

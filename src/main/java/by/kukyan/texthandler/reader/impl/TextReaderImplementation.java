@@ -12,7 +12,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class textReaderImplementation implements TextReader {
+public class TextReaderImplementation implements TextReader {
     private static final Logger logger = LogManager.getLogger();
 
     @Override

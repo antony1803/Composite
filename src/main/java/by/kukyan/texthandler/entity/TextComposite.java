@@ -32,13 +32,18 @@ public class TextComposite implements CustomTextComponent {
     }
 
     @Override
-    public TextElementType getCompositeElementType() {
+    public TextElementType getComponentElementType() {
         return elementType;
     }
 
     @Override
     public List<CustomTextComponent> getInnerComponents() {
         return components;
+    }
+
+    @Override
+    public int size() {
+        return components.size();
     }
 
     @Override

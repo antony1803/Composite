@@ -32,13 +32,18 @@ public class Symbol implements CustomTextComponent {
     }
 
     @Override
-    public TextElementType getCompositeElementType() {
+    public TextElementType getComponentElementType() {
         return elementType;
     }
 
     @Override
     public List<CustomTextComponent> getInnerComponents() {
         throw new UnsupportedOperationException("cant get element from leaf");
+    }
+
+    @Override
+    public int size() {
+        return 1;
     }
 
     @Override
