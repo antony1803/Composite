@@ -3,6 +3,7 @@ package by.kukyan.texthandler.service;
 import by.kukyan.texthandler.entity.CustomTextComponent;
 import by.kukyan.texthandler.entity.TextComposite;
 import by.kukyan.texthandler.exception.CustomException;
+import by.kukyan.texthandler.parser.impl.ParagraphParser;
 import by.kukyan.texthandler.parser.impl.SentenceParser;
 import by.kukyan.texthandler.parser.impl.TextParser;
 import by.kukyan.texthandler.service.impl.CustomTextServiceImpl;
@@ -14,7 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -53,6 +56,24 @@ public class TextServiceTest {
         String actual = composite.toString();
 
         assertEquals(actual, expected);
+    }
+    @Test
+    public void testSentenceSorterBySize(){
+        try {
+            sorter.sort(composite);
+        } catch (CustomException e) {
+            logger.error("fail trying to sort", e);
+        }
+        ParagraphParser paragraphParser = new ParagraphParser();
+        TextComposite paragraph = paragraphParser.parse("Hi, its parser test again. And now we are testing some services. \n");
+        try {
+            sorter.sort(paragraph);
+        } catch (CustomException e) {
+            logger.error("sorter error", e);
+        }
+        String expected = "And now we are testing some services. Hi, its parser test again. \n";
+        assertEquals(paragraph.toString(), expected);
+
     }
 
     @Test
@@ -96,6 +117,46 @@ public class TextServiceTest {
         TextComposite expectedSentence = sParser.parse("but nevertheless here i am. \n");
         expected.add(expectedSentence);
         assertEquals(actual.toString(), expected.toString());
+    }
+
+    @Test
+    public void testFindSentencesWithLongestWordWithoutRemovingPunctuation(){
+        List<CustomTextComponent> actual = null;
+        String punctuationText = "Hi, its parser test again abbreviated. \n" +
+                "but nevertheless here i am. \n" +
+                "Bye. \n";
+        TextComposite punctuationComposite = parser.parse(punctuationText);
+        try {
+            actual = service.findSentencesWithLongestWordWithoutRemovingPunctuation(punctuationComposite);
+        } catch (CustomException e) {
+            logger.error("service error", e);
+        }
+        List<CustomTextComponent> expected = new ArrayList<>();
+        SentenceParser sParser = new SentenceParser();
+        TextComposite expectedSentence = sParser.parse("Hi, its parser test again abbreviated. \n");
+        expected.add(expectedSentence);
+        expectedSentence = sParser.parse("but nevertheless here i am. \n");
+        expected.add(expectedSentence);
+        assertEquals(actual.toString(), expected.toString());
+    }
+
+    @Test
+    public void testWordFrequency(){
+        Map<String, Integer> actual = null;
+        Map<String, Integer> expected = new HashMap<>();
+        String frequencyText = "Hi, its Anton.\n" +
+                "Hi again.\n";
+        TextComposite frequencyComposite = parser.parse(frequencyText);
+        try {
+            actual = service.findWordsFrequency(frequencyComposite);
+        } catch (CustomException e) {
+            logger.error("frequency error", e);
+        }
+        expected.put("hi", 2);
+        expected.put("anton", 1);
+        expected.put("again", 1);
+        expected.put("its", 1);
+        assertEquals(actual, expected);
     }
 
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 public interface CustomTextService {
     List<CustomTextComponent> findSentencesWithLongestWord(CustomTextComponent component) throws CustomException;
 
+    List<CustomTextComponent> findSentencesWithLongestWordWithoutRemovingPunctuation(CustomTextComponent component) throws CustomException;
+
     void removeSentencesWithWordsMoreThan(CustomTextComponent component, int numberOfWords) throws CustomException;
 
     Map<String, Integer> findWordsFrequency(CustomTextComponent component) throws CustomException;

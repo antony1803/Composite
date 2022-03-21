@@ -41,6 +41,12 @@ public class TextComposite implements CustomTextComponent {
     }
 
     @Override
+    public void setInnerComponents(List<CustomTextComponent> newComponents) {
+        components = newComponents;
+    }
+
+
+    @Override
     public int size() {
         return components.size();
     }

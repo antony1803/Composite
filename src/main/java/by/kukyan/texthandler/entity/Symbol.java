@@ -36,6 +36,11 @@ public class Symbol implements CustomTextComponent {
     }
 
     @Override
+    public void setInnerComponents(List<CustomTextComponent> components) {
+        throw new UnsupportedOperationException("cant set element in leaf");
+    }
+
+    @Override
     public int size() {
         return 1;
     }

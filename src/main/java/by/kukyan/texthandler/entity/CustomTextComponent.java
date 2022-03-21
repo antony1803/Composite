@@ -11,5 +11,7 @@ public interface CustomTextComponent {
 
     List<CustomTextComponent> getInnerComponents();
 
+    void setInnerComponents(List<CustomTextComponent> components);
+
     int size();
 }
