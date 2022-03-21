@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class SentenceParser implements CustomTextParser {
 
     private static final String WORD_LIMITER = "\\s+";
-    private static final String PATTERN_FOR_CALCULATION = "([0-9]+[\\+\\-\\*\\/][0-9]+)+([\\+\\-\\*\\/][0-9]+)*";
+    private static final String PATTERN_FOR_CALCULATION = "(\\d+[\\+\\-\\*\\/][0-9]+)+([\\+\\-\\*\\/][0-9]+)*";
 
     private final CustomTextParser compositeParser = new WordParser();
 

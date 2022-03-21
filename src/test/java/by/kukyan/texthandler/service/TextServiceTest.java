@@ -20,11 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
 public class TextServiceTest {
-    private static final String VOWEL_REGEX = "[aAeEiIoOuU]";
-    private static final String CONSONANT_REGEX = "[a-zA-Z&&[^aAeEiIoOuU]]";
+    private static final String VOWEL_REGEX = "[aAeEiIoOuUyY]";
+    private static final String CONSONANT_REGEX = "[a-zA-Z&&[^aAeEiIoOuUyY]]";
     private static final Logger logger = LogManager.getLogger();
     private TextComposite composite;
     private SorterBySize sorter;
@@ -78,14 +77,14 @@ public class TextServiceTest {
 
     @Test
     public void testCountConsonant(){
-        int expected = 85;
+        int expected = 84;
         int actual = service.countLettersMatchingPattern(composite, CONSONANT_REGEX);
         assertEquals(actual, expected);
     }
 
     @Test
     public void testCountVowels(){
-        int expected = 59;
+        int expected = 60;
         int actual = service.countLettersMatchingPattern(composite, VOWEL_REGEX);
         assertEquals(actual, expected);
     }
