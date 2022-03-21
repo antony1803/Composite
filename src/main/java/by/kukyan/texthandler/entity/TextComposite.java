@@ -2,7 +2,6 @@ package by.kukyan.texthandler.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TextComposite implements CustomTextComponent {
@@ -16,9 +15,9 @@ public class TextComposite implements CustomTextComponent {
     @Override
     public String toString() {
         String separator = elementType.getSeparator();
-        return this.getInnerComponents().stream()
-                .map(textComponent -> textComponent.toString() + separator)
-                .collect(Collectors.joining());
+        return getInnerComponents().stream()
+                .map(textComponent -> textComponent.toString())
+                .collect(Collectors.joining()) + separator;
     }
 
     @Override
@@ -51,11 +50,11 @@ public class TextComposite implements CustomTextComponent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextComposite that = (TextComposite) o;
-        return elementType == that.elementType && Objects.equals(components, that.components);
+        return elementType == that.elementType && components.equals(that.components);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elementType, components);
+        return components.hashCode();
     }
 }

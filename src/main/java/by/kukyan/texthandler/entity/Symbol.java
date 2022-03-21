@@ -1,7 +1,6 @@
 package by.kukyan.texthandler.entity;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Symbol implements CustomTextComponent {
     private TextElementType elementType;
@@ -14,11 +13,6 @@ public class Symbol implements CustomTextComponent {
     public Symbol(char newSym, TextElementType type){
         elementType = type;
         symbol = newSym;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(symbol);
     }
 
     @Override
@@ -47,15 +41,30 @@ public class Symbol implements CustomTextComponent {
     }
 
     @Override
+    public String toString() {
+        return String.valueOf(symbol);
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Symbol second = (Symbol) o;
-        return symbol == second.symbol && elementType == second.elementType;
+        if (this == o) {return true;}
+        if (o == null) {return false;}
+        TextComposite composite = new TextComposite(TextElementType.SYMBOL);
+        Symbol second = new Symbol(' ', TextElementType.SYMBOL);
+        if(o.getClass() == composite.getClass()){
+            second = (Symbol) ((TextComposite)o).getInnerComponents().get(0);
+        }
+        else if(o.getClass()!=getClass()){
+            return false;
+        }
+        else {
+            second = (Symbol) o;
+        }
+        return symbol == second.symbol;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elementType, symbol);
+        return Character.hashCode(symbol) + elementType.hashCode();
     }
 }

@@ -5,19 +5,33 @@ import by.kukyan.texthandler.entity.TextComposite;
 import by.kukyan.texthandler.entity.TextElementType;
 import by.kukyan.texthandler.parser.CustomTextParser;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ParagraphParser implements CustomTextParser {
-    private static final String PARAGRAPH_LIMITER = "[\\n\\t]+";
+
+    private static final String SENTENCE_PATTERN = "[^.!?\\s][^.!?]*(?:[.!?](?!['\"]?\\s|$)[^.!?]*)*[.!?]?['\"]?(?=\\s|$)";
     private final CustomTextParser compositeParser = new SentenceParser();
 
     @Override
     public TextComposite parse(String text) {
-        TextComposite composite = new TextComposite(TextElementType.PARAGRAPH);
-        String[] paragraphs = text.strip().split(PARAGRAPH_LIMITER);
 
-        for (String paragraph : paragraphs) {
-            CustomTextComponent paragraphComponent = compositeParser.parse(paragraph);
-            composite.add(paragraphComponent);
+        TextComposite paragraphComposite = new TextComposite(TextElementType.PARAGRAPH);
+        Pattern pattern = Pattern.compile(SENTENCE_PATTERN);
+        Matcher matcher = pattern.matcher(text);
+
+        List<String> sentences = new ArrayList<>();
+        while (matcher.find()) {
+            sentences.add(matcher.group());
         }
-        return composite;
+
+        for (int i = 0; i < sentences.size(); i++) {
+            CustomTextComponent wordComponents = compositeParser.parse(sentences.get(i));
+            paragraphComposite.add(wordComponents);
+        }
+
+        return paragraphComposite;
     }
 }

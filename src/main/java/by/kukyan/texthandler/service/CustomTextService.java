@@ -11,9 +11,7 @@ public interface CustomTextService {
 
     void removeSentencesWithWordsMoreThan(CustomTextComponent component, int numberOfWords) throws CustomException;
 
-    int countVowelsInSentence(CustomTextComponent component) throws CustomException;
-
-    int countConsonantsInSentence(CustomTextComponent component) throws CustomException;
-
     Map<String, Integer> findWordsFrequency(CustomTextComponent component) throws CustomException;
+
+    int countLettersMatchingPattern(CustomTextComponent component, String pattern);
 }

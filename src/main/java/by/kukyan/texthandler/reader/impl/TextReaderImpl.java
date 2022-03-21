@@ -12,7 +12,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class TextReaderImplementation implements TextReader {
+public class TextReaderImpl implements TextReader {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -28,8 +28,8 @@ public class TextReaderImplementation implements TextReader {
         try{
             result = Files.readString(Paths.get(res.toURI()));
         }catch (IOException | URISyntaxException e){
-            logger.error("cant read");
-            throw new CustomException("cant read");
+            logger.error("cant read", e);
+            throw new CustomException("cant read", e);
         }
         return result;
     }

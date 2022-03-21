@@ -5,33 +5,39 @@ import by.kukyan.texthandler.entity.TextComposite;
 import by.kukyan.texthandler.entity.TextElementType;
 import by.kukyan.texthandler.parser.CustomTextParser;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
+
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class SentenceParser implements CustomTextParser {
 
-    private static final String SENTENCE_PATTERN = "[^.!?\\s][^.!?]*(?:[.!?](?!['\"]?\\s|$)[^.!?]*)*[.!?]?['\"]?(?=\\s|$)";
+    private static final String WORD_LIMITER = "\\s+";
+    private static final String PATTERN_FOR_CALCULATION = "([0-9]+[\\+\\-\\*\\/][0-9]+)+([\\+\\-\\*\\/][0-9]+)*";
+
     private final CustomTextParser compositeParser = new WordParser();
 
     @Override
     public TextComposite parse(String text) {
-
         TextComposite sentenceComposite = new TextComposite(TextElementType.SENTENCE);
-        Pattern pattern = Pattern.compile(SENTENCE_PATTERN);
-        Matcher matcher = pattern.matcher(text);
+        String[] words = text.strip().split(WORD_LIMITER);
+        Pattern pattern = Pattern.compile(PATTERN_FOR_CALCULATION);
 
-        List<String> sentences = new ArrayList<>();
-        while (matcher.find()) {
-            sentences.add(matcher.group());
-        }
-
-        for (int i = 0; i < sentences.size(); i++) {
-            CustomTextComponent wordComponents = compositeParser.parse(sentences.get(i));
-            sentenceComposite.add(wordComponents);
+        for (int i = 0; i < words.length; i++) {
+            if (pattern.matcher(words[i]).find()) {
+                words[i] = calculateArithmetic(words[i]).orElse(words[i]);
+            }
+            CustomTextComponent symbolComponent = compositeParser.parse(words[i]);
+            sentenceComposite.add(symbolComponent);
         }
 
         return sentenceComposite;
+    }
+
+    private Optional<String> calculateArithmetic(String input) {
+        Expression expression = new ExpressionBuilder(input).build();
+        String result = String.valueOf(expression.evaluate());
+        return Optional.of(result);
     }
 }
