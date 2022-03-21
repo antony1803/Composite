@@ -22,13 +22,8 @@ public class ParagraphParser implements CustomTextParser {
         Pattern pattern = Pattern.compile(SENTENCE_PATTERN);
         Matcher matcher = pattern.matcher(text);
 
-        List<String> sentences = new ArrayList<>();
         while (matcher.find()) {
-            sentences.add(matcher.group());
-        }
-
-        for (int i = 0; i < sentences.size(); i++) {
-            CustomTextComponent wordComponents = compositeParser.parse(sentences.get(i));
+            CustomTextComponent wordComponents = compositeParser.parse(matcher.group());
             paragraphComposite.add(wordComponents);
         }
 
